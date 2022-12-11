@@ -1,0 +1,41 @@
+name: env global
+env:
+  v1
+  v2
+  v3
+on: [workflow_dispatch]
+
+jobs:
+    job1:
+      name: initialize
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v1
+        - name: assign
+          shell: pwsh
+          env:
+            localv1: 'Hello, World'
+          run: |
+            $Env:v1 = 1
+            $Env:v1 = 2
+            $Env:v1 = 3
+            Write-Host "v1= " $Env:v1
+            Write-Host "v2= " $Env:v2
+            Write-Host "v3= " $Env:v2
+            Write-Host "localv1= " $Env:localv1
+          
+    job2:
+      needs: job1
+      name: Consume
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v1
+        - name: read
+          shell: pwsh
+          run: |
+            Write-Host "v1= " $Env:v1
+            Write-Host "v2= " $Env:v2
+            Write-Host "v3= " $Env:v2
+            Write-Host "localv1= " $Env:localv1
+          
+         
