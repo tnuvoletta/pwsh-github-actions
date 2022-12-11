@@ -5,7 +5,7 @@ param(
 )
 
 if ($Fail) {
-    throw "This script fails!"
+    throw "This script fails and fails!"
 }
 
 if ($ExitCode) {
