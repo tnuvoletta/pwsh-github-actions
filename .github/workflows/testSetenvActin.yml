@@ -1,0 +1,10 @@
+name: my-workflow
+
+on: workflow_dispatch
+
+jobs:
+  my-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set environment variables
+        uses: ./.github/actions/set-environment-variables
