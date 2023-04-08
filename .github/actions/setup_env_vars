@@ -1,0 +1,39 @@
+name: set-environment-variables
+
+description: |
+  Sets environment variables in the current job based on a JSON string.
+
+inputs: {}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Declare variables
+      shell: pwsh
+      run: |
+        $jsonString = @'
+        {
+          "VAR1": "value1",
+          "VAR2": "value2",
+          "VAR3": "value3",
+          "VAR4": "value4",
+          "VAR5": "value5",
+          "VAR6": "value6",
+          "VAR7": "value7",
+          "VAR8": "value8",
+          "VAR9": "value9",
+          "VAR10": "value10",
+          "VAR11": "value11",
+          "VAR12": "value12",
+          "VAR13": "value13",
+          "VAR14": "value14",
+          "VAR15": "value15"
+        }
+        '@
+        $envVars = $jsonString | ConvertFrom-Json
+        $envVars.GetEnumerator() | ForEach-Object {
+          Write-Host "Setting $($_.Key) environment variable"
+          echo "::set-env name=$($_.Key)::$(($_.Value | ConvertTo-Json -Compress))"
+        }
+
+outputs: {}
